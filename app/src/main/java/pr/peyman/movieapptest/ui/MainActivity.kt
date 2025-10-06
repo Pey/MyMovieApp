@@ -1,9 +1,8 @@
-package pr.peyman.movieapptest
+package pr.peyman.movieapptest.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-
 import pr.peyman.movieapptest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
