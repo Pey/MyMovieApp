@@ -1,0 +1,47 @@
+# === Android Studio & Gradle ===
+*.iml
+.gradle/
+build/
+local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.idea/
+.cxx/
+.externalNativeBuild/
+
+# === Generated Files ===
+bin/
+gen/
+out/
+obj/
+captures/
+
+# === Keystore / Signing files (Security) ===
+*.jks
+*.keystore
+
+# === Logs ===
+*.log
+
+# === OS Specific ===
+.DS_Store
+Thumbs.db
+
+# === Google Services & Firebase ===
+google-services.json
+fabric.properties
+crashlytics-build.properties
+
+# === Build Outputs ===
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# === Others ===
+/captures
