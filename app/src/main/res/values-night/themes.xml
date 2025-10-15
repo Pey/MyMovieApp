@@ -3,5 +3,31 @@
     <style name="Base.Theme.MovieAppTest" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:windowBackground" >@color/black</item>
+
+    </style>
+
+    <style name="myAllTextView" parent="Widget.AppCompat.TextView">
+
+        <item name="android:textColor" > @color/white</item>
+        <item name="fontFamily">sans-serif-light</item>
+
+    </style>
+
+
+    <!--TextInputLayout-->
+    <style name="CustomOuylineBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <item name="hintTextColor" > @color/carayola</item>
+        <item name="boxStrokeColor" > @color/carayola</item>
+        <item name="boxBackgroundColor" > @color/grew</item>
+        <item name="startIconTint" > @color/silver</item>
+    </style>
+
+
+    <!--shapeableImageView-->
+    <style name="RoundedImageView" >
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_10mdp</item>
     </style>
 </resources>
