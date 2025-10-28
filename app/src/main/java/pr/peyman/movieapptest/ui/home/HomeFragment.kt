@@ -1,33 +1,50 @@
 package pr.peyman.movieapptest.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import pr.peyman.movieapptest.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
+import pr.peyman.movieapptest.databinding.FragmentHomeBinding
+import pr.peyman.movieapptest.ui.home.adapters.GenresAdapter
+import pr.peyman.movieapptest.ui.home.adapters.LastMoviesAdapter
+import pr.peyman.movieapptest.ui.home.adapters.TopMoviesAdapter
+import pr.peyman.movieapptest.viewmodel.HomeViewModel
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    lateinit var binding: FragmentHomeBinding
+    val viewModel: HomeViewModel by viewModels()
+
+    @Inject
+    lateinit var topMoviesAdapter: TopMoviesAdapter
+
+    @Inject
+    lateinit var lastMoviesAdapter: LastMoviesAdapter
+
+    @Inject
+    lateinit var genresAdapter: GenresAdapter
+
+
+    val pagerIndicator: PagerSnapHelper by lazy { PagerSnapHelper() }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        // call api
+
+        viewModel.getTopMovies(3)
+        viewModel.getGenresMovies()
+        viewModel.getLastMovies()
+
     }
 
     override fun onCreateView(
@@ -35,26 +52,73 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+
+            //get top movies
+
+            viewModel.topMovies.observe(viewLifecycleOwner) {
+
+                topMoviesAdapter.differ.submitList(it.data)
+
+                topMoviesRecycler.layoutManager =
+                    LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+
+                topMoviesRecycler.adapter = topMoviesAdapter
+
+
+                pagerIndicator.attachToRecyclerView(topMoviesRecycler) // baraye tak tak jabeja shodan
+                topMoviesIndicator.attachToRecyclerView(topMoviesRecycler, pagerIndicator)
+
+            }
+
+
+            // get Genre
+
+            viewModel.genresList.observe(viewLifecycleOwner) {
+
+                genresAdapter.differ.submitList(it)
+
+                genresRecycler.layoutManager =
+                    LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+
+                genresRecycler.adapter = genresAdapter
+            }
+
+            // get last Movies
+
+
+            viewModel.lastMovies.observe(viewLifecycleOwner) {
+
+                lastMoviesAdapter.differ.submitList(it.data)
+
+                lastMoviesRecycler.layoutManager = LinearLayoutManager(
+                    requireContext(),
+                    RecyclerView.VERTICAL, false
+                )
+
+                lastMoviesRecycler.adapter = lastMoviesAdapter
+            }
+
+            viewModel.homeLoading.observe(viewLifecycleOwner) {
+
+                if (it) {
+                    progressBar.visibility = View.VISIBLE
+                    moviesScrollLay.visibility = View.INVISIBLE
+                } else {
+                    progressBar.visibility = View.INVISIBLE
+                    moviesScrollLay.visibility = View.VISIBLE
                 }
             }
+        }
+
     }
+
+
 }
