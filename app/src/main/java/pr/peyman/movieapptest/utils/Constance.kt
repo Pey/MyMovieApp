@@ -7,4 +7,6 @@ object Constance {
     const val CONNECTION_TIMEOUT = 60L
     const val INTERCEPTER_HEADER = "INTERCEPTER_HEADER"
     const val INTERCEPTER_BODY = "INTERCEPTER_BODY"
+    const val TABLE_NAME = "MOVIE_TABLE"
+    const val DB_NAME = "MOVIE_DB"
 }

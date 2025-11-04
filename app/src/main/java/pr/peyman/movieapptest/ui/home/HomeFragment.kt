@@ -21,6 +21,7 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
+
     val viewModel: HomeViewModel by viewModels()
 
     @Inject
@@ -40,13 +41,13 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // call api
-
-        viewModel.getTopMovies(3)
+        viewModel.getTopMovies(3, requireContext())
         viewModel.getGenresMovies()
         viewModel.getLastMovies()
 
     }
 
+    //
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,6 +61,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+
 
             //get top movies
 
@@ -80,7 +82,6 @@ class HomeFragment : Fragment() {
 
 
             // get Genre
-
             viewModel.genresList.observe(viewLifecycleOwner) {
 
                 genresAdapter.differ.submitList(it)
@@ -92,8 +93,6 @@ class HomeFragment : Fragment() {
             }
 
             // get last Movies
-
-
             viewModel.lastMovies.observe(viewLifecycleOwner) {
 
                 lastMoviesAdapter.differ.submitList(it.data)

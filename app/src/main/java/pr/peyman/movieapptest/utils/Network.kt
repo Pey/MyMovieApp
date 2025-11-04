@@ -11,9 +11,6 @@ import javax.inject.Singleton
 class Network @Inject constructor(private val cm: ConnectivityManager) : LiveData<Boolean>() {
 
 
-
-
-
 //    constructor(application: Application) : this(application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
 
     //////   or   اگر بخواهیم بدون کلاس  ماژول (moduale) به کار ببریم :
