@@ -12,19 +12,19 @@ import pr.peyman.movieapptest.utils.Constance
 interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun MovieInsert(entity: MovieEntity)
+    suspend fun MovieInsert(entity: MovieEntity)
 
     @Delete
-    fun MovieDelete(entity: MovieEntity)
+    suspend fun MovieDelete(entity: MovieEntity)
 
     @Update()
-    fun MovieUpdate(entity: MovieEntity)
+    suspend fun MovieUpdate(entity: MovieEntity)
 
     @Query("SELECT * FROM ${Constance.TABLE_NAME}")
-    fun getAllMovies(): MutableList<MovieEntity>
+   suspend fun getAllMovies(): MutableList<MovieEntity>
 
     @Query("SELECT EXISTS (SELECT 1 FROM ${Constance.TABLE_NAME} WHERE id= :movieId )")
-    fun existMovie(movieId: Int): Boolean
+   suspend fun existMovie(movieId: Int): Boolean
 
 
 }
